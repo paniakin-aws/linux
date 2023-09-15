@@ -40,7 +40,8 @@ struct damon_addr_range {
  * @ar:			The address range of the region.
  * @sampling_addr:	Address of the sample for the next access check.
  * @nr_accesses:	Access frequency of this region.
- * @nr_accesses_bp:	@nr_accesses in basis point (0.01%).
+ * @nr_accesses_bp:	@nr_accesses in basis point (0.01%) that updated for
+ *			each sampling interval.
  * @list:		List head for siblings.
  * @age:		Age of this region.
  *
@@ -532,7 +533,8 @@ int damon_set_regions(struct damon_target *t, struct damon_addr_range *ranges,
 		unsigned int nr_ranges);
 unsigned int damon_moving_sum(unsigned int mvsum, unsigned int nomvsum,
 		unsigned int len_window, unsigned int new_value);
-void damon_update_region_access_rate(struct damon_region *r, bool accessed);
+void damon_update_region_access_rate(struct damon_region *r, bool accessed,
+		struct damon_attrs *attrs);
 
 struct damos *damon_new_scheme(struct damos_access_pattern *pattern,
 			enum damos_action action, struct damos_quota *quota,
