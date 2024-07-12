@@ -1,6 +1,8 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
 
+set -e
+
 source _debugfs_common.sh
 
 # Test huge count read write
