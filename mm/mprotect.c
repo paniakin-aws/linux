@@ -507,6 +507,11 @@ unsigned long change_protection(struct mmu_gather *tlb,
 
 	BUG_ON((cp_flags & MM_CP_UFFD_WP_ALL) == MM_CP_UFFD_WP_ALL);
 
+#ifdef CONFIG_ARCH_SUPPORTS_NUMA_BALANCING
+	if (cp_flags & MM_CP_DAMON)
+		newprot = PAGE_NONE;
+#endif
+
 	if (is_vm_hugetlb_page(vma))
 		pages = hugetlb_change_protection(vma, start, end, newprot,
 						  cp_flags);
