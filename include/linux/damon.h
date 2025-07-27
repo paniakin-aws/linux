@@ -82,6 +82,23 @@ struct damon_target {
 };
 
 /**
+ * struct damon_access_report - Represent single acces report information.
+ * @pid:		The PID of the virtual address space of the address.
+ *			NULL if it is of the physical address.
+ * @addr:		The start address of the reporting region.
+ * @size:		The size of the reporting region.
+ *
+ * @pid could be stale, and hence shouldn't be de-referenced.
+ */
+struct damon_access_report {
+	struct pid *pid;
+	unsigned long addr;
+	unsigned long size;
+/* private: */
+	unsigned long report_jiffies;	/* when this report is made */
+};
+
+/**
  * enum damos_action - Represents an action of a Data Access Monitoring-based
  * Operation Scheme.
  *
@@ -573,8 +590,16 @@ static inline unsigned int damon_max_nr_accesses(const struct damon_attrs *attrs
 int damon_start(struct damon_ctx **ctxs, int nr_ctxs, bool exclusive);
 int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
 
+void damon_report_access(struct damon_access_report *report);
+
 int damon_set_region_biggest_system_ram_default(struct damon_target *t,
 				unsigned long *start, unsigned long *end);
+
+#else	/* CONFIG_DAMON */
+
+static inline void damon_report_access(struct damon_access_report *report)
+{
+}
 
 #endif	/* CONFIG_DAMON */
 
