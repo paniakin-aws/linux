@@ -14,6 +14,7 @@ TEST_PROGS += sysfs_update_schemes_tried_regions_wss_estimation.py
 TEST_PROGS += damos_quota.py damos_quota_goal.py damos_apply_interval.py
 TEST_PROGS += damos_tried_regions.py damon_nr_regions.py
 TEST_PROGS += reclaim.sh lru_sort.sh
+TEST_PROGS += damos_wo_wss_estimation.py
 
 # regression tests (reproducers of previously found bugs)
 TEST_PROGS += sysfs_update_removed_scheme_dir.sh
